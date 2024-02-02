@@ -14,10 +14,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponPref: 1
   particalAnimation: 1
-  weaponSprite: {fileID: 0}
+  haveOverLay: 1
+  weaponSprite: {fileID: 21300000, guid: d06d7534359d4f7fb1376146c488d233, type: 3}
   playerAnimator: {fileID: 9100000, guid: 5f94d5bb692840c3b94ca109b999e113, type: 2}
   weaponAnimator: {fileID: 0}
-  overlayAnimator: {fileID: 0}
+  overlayAnimator: {fileID: 9100000, guid: f513a53f6ab44aeea7901fdb74325f67, type: 2}
   particalAnimator: {fileID: 9100000, guid: daacac87f9384a9a90de7f741f6e973d, type: 2}
   idleAnimator: {fileID: 0}
   damage: 0

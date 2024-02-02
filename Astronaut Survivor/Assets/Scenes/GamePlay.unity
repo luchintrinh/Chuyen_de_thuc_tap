@@ -339,7 +339,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &626184481
 Transform:
   m_ObjectHideFlags: 0
@@ -936,6 +936,10 @@ PrefabInstance:
       propertyPath: m_Controller
       value: 
       objectReference: {fileID: 9100000, guid: 342d2585f82144758e9dc8e09abf705f, type: 2}
+    - target: {fileID: 6404949437664711586, guid: b8ce4a6200b44dfaae185d7347ed4cc2, type: 3}
+      propertyPath: m_SortingOrder
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6404949437664711587, guid: b8ce4a6200b44dfaae185d7347ed4cc2, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -1028,7 +1032,7 @@ MonoBehaviour:
   timeToDash: 0.5
   timeDelay: 2
   Ghost_player: {fileID: 315773621967511944, guid: 3c044956f089aeb4abcd3afd4185c38f, type: 3}
-  delay_ghost: 0.01
+  delay_ghost: 0.05
 --- !u!50 &1828660408
 Rigidbody2D:
   serializedVersion: 4

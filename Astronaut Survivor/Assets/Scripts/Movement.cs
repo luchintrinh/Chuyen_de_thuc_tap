@@ -70,7 +70,10 @@ public class Movement : MonoBehaviour
     {
         while (true)
         {
-            Instantiate(Ghost_player, transform.position, transform.rotation);
+            GameObject ghost= Instantiate(Ghost_player, transform.position, transform.rotation);
+            ghost.GetComponent<SpriteRenderer>().sprite = GetComponent<SpriteRenderer>().sprite;
+            ghost.transform.localScale = transform.localScale;
+            Destroy(ghost, 1f);
             yield return new WaitForSeconds(delay_ghost);
         }
     }
@@ -114,7 +117,7 @@ public class Movement : MonoBehaviour
     public void WeaponDir()
     {
         Vector3 dir = transform.localScale;
-        dir.x = transform.position.x < mousePos.x ? -1 : 1; ;
+        dir.x = transform.position.x < mousePos.x ? -1 : 1; 
         transform.localScale = dir;
         Vector2 gunDir = mousePos - (Vector2)weapon.transform.position ;
         float angle = Mathf.Atan2(gunDir.y, gunDir.x) * Mathf.Rad2Deg;

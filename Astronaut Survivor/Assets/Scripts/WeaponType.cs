@@ -10,6 +10,7 @@ public class WeaponType : ScriptableObject
     [Header ("# GameObject need create")]
     public bool weaponPref;
     public bool particalAnimation;
+    public bool haveOverLay;
 
     [Header("# Sprites")]
     public Sprite weaponSprite;

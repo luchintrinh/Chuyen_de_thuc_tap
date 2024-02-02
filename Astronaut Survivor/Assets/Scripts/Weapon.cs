@@ -10,7 +10,6 @@ public class Weapon : MonoBehaviour
     public GameObject player;
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("Collect");
         if (!collision.CompareTag("Player")) return;
         CollectWeapon();
     }
@@ -40,27 +39,18 @@ public class Weapon : MonoBehaviour
         GameObject fireAni = player.transform.GetChild(0).transform.GetChild(0).gameObject;
         fireAni.SetActive(weapon.particalAnimation);
 
-        if (weapon.weaponSprite && weapon.weaponPref)
-        {
-            weaponObject.GetComponent<SpriteRenderer>().sprite = weapon.weaponSprite;
-        }
-        if (weapon.weaponAnimator)
-        {
-            weaponObject.GetComponent<Animator>().runtimeAnimatorController = weapon.weaponAnimator;
-        }
-        else
-        {
-            weaponObject.GetComponent<Animator>().runtimeAnimatorController = null;
-        }
 
-        if (weapon.overlayAnimator)
-        {
-            player.transform.GetChild(1).GetComponent<Animator>().runtimeAnimatorController = weapon.overlayAnimator;
-        }
+        //add animator for weapon 
+        weaponObject.GetComponent<Animator>().runtimeAnimatorController = weapon.weaponAnimator ? weapon.weaponAnimator : null;
 
-        if (weapon.particalAnimation)
-        {
-            fireAni.GetComponent<Animator>().runtimeAnimatorController = weapon.particalAnimator;
-        }
+        //add sprite for weapon 
+        weaponObject.GetComponent<SpriteRenderer>().sprite = weapon.weaponSprite? weapon.weaponSprite:null;
+
+
+        //setActive for the arms
+        player.transform.GetChild(1).gameObject.SetActive(weapon.haveOverLay);
+        player.transform.GetChild(1).GetComponent<Animator>().runtimeAnimatorController = weapon.overlayAnimator?weapon.overlayAnimator:null;
+
+        fireAni.GetComponent<Animator>().runtimeAnimatorController = weapon.particalAnimation? weapon.particalAnimator:null;
     }
 }
