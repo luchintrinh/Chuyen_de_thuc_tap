@@ -8,49 +8,100 @@ public class Weapon : MonoBehaviour
     public Type weaponType;
     public WeaponType weapon;
     public GameObject player;
+
+    GameObject fireAni;
+    Movement movement;
+    private void Awake()
+    {
+        movement = FindObjectOfType<Movement>();
+    }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (!collision.CompareTag("Player")) return;
-        CollectWeapon();
+        CollectWeapon(weaponType, weapon);
     }
-    void CollectWeapon()
+    public void CollectWeapon(Type weaponType, WeaponType weapon)
     {
         switch (weaponType)
         {
             case Type.none:
                 break;
             case Type.Gun:
-                changeWeapon();
+                changeWeapon(weapon);
                 break;
             case Type.Sword:
-                changeWeapon();
+                changeWeapon(weapon);
+                break;
+            case Type.Hammer:
+                changeWeapon(weapon);
+                break;
+            case Type.Rifle:
+                changeWeapon(weapon);
+                break;
+            case Type.Scythe:
+                changeWeapon(weapon);
+                break;
+            case Type.Bow:
+                changeWeapon(weapon);
                 break;
         }
         Destroy(gameObject, 0.01f);
     }
-    void changeWeapon()
+    void changeWeapon(WeaponType weapon)
     {
-        player.GetComponent<Animator>().runtimeAnimatorController = weapon.playerAnimator;
-        // active the weapon
-        GameObject weaponObject = player.transform.GetChild(0).gameObject;
-        weaponObject.SetActive(weapon.weaponPref);
+        if (weapon.nearlyAttack)
+        {
+            player.GetComponent<Animator>().runtimeAnimatorController = weapon.nearlyAttack?weapon.walkNotNearlyAttack : weapon.playerAnimator;
+            // active the weapon
+            GameObject weaponObject = player.transform.GetChild(0).gameObject;
+            weaponObject.SetActive(weapon.weaponPref);
 
-        //active the fire animation
-        GameObject fireAni = player.transform.GetChild(0).transform.GetChild(0).gameObject;
-        fireAni.SetActive(weapon.particalAnimation);
+            //active the fire animation
+            fireAni = player.transform.GetChild(0).transform.GetChild(0).gameObject;
+
+            fireAni.SetActive(weapon.particalAnimation);
+
+            //add animator for weapon 
+            
+            weaponObject.GetComponent<Animator>().runtimeAnimatorController = weapon.nearlyAttack ?null: weapon.weaponAnimator;
+
+            //add sprite for weapon 
+            weaponObject.GetComponent<SpriteRenderer>().sprite = weapon.weaponSprite ? weapon.weaponSprite : null;
 
 
-        //add animator for weapon 
-        weaponObject.GetComponent<Animator>().runtimeAnimatorController = weapon.weaponAnimator ? weapon.weaponAnimator : null;
+            //setActive for the arms
+            player.transform.GetChild(1).gameObject.SetActive(weapon.haveOverLay);
+            player.transform.GetChild(1).GetComponent<Animator>().runtimeAnimatorController = weapon.nearlyAttack ?weapon.overlayNotAttack :weapon.overlayAnimator;
 
-        //add sprite for weapon 
-        weaponObject.GetComponent<SpriteRenderer>().sprite = weapon.weaponSprite? weapon.weaponSprite:null;
+            fireAni.GetComponent<Animator>().runtimeAnimatorController = weapon.particalAnimation ? weapon.particalAnimator : null;
+
+        }
+        else
+        {
+            player.GetComponent<Animator>().runtimeAnimatorController = weapon.playerAnimator;
+            // active the weapon
+            GameObject weaponObject = player.transform.GetChild(0).gameObject;
+            weaponObject.SetActive(weapon.weaponPref);
+
+            //active the fire animation
+            fireAni = player.transform.GetChild(0).transform.GetChild(0).gameObject;
+
+            fireAni.SetActive(weapon.particalAnimation);
+
+            //add animator for weapon 
+            weaponObject.GetComponent<Animator>().runtimeAnimatorController = weapon.weaponAnimator ? weapon.weaponAnimator : null;
+
+            //add sprite for weapon 
+            weaponObject.GetComponent<SpriteRenderer>().sprite = weapon.weaponSprite ? weapon.weaponSprite : null;
 
 
-        //setActive for the arms
-        player.transform.GetChild(1).gameObject.SetActive(weapon.haveOverLay);
-        player.transform.GetChild(1).GetComponent<Animator>().runtimeAnimatorController = weapon.overlayAnimator?weapon.overlayAnimator:null;
+            //setActive for the arms
+            player.transform.GetChild(1).gameObject.SetActive(weapon.haveOverLay);
+            player.transform.GetChild(1).GetComponent<Animator>().runtimeAnimatorController = weapon.overlayAnimator ? weapon.overlayAnimator : null;
 
-        fireAni.GetComponent<Animator>().runtimeAnimatorController = weapon.particalAnimation? weapon.particalAnimator:null;
+            fireAni.GetComponent<Animator>().runtimeAnimatorController = weapon.particalAnimation ? weapon.particalAnimator : null;
+        }
+
     }
+
 }

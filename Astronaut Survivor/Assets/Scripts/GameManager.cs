@@ -8,6 +8,8 @@ public class GameManager : MonoBehaviour
 
     public WeaponType[] listWeapon;
     public bool haveWeapon=true;
+    public Weapon weapon;
+    public WeaponType weaponType;
 
     private void Awake()
     {
@@ -20,5 +22,10 @@ public class GameManager : MonoBehaviour
             instance = this;
             DontDestroyOnLoad(instance);
         }
+    }
+    private void Start()
+    {
+        weapon = FindObjectOfType<Weapon>();
+        weapon.CollectWeapon(Weapon.Type.none, weaponType);
     }
 }

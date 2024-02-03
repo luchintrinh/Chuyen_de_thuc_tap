@@ -24,9 +24,13 @@ public class Movement : MonoBehaviour
     private Coroutine cor;
     public float delay_ghost = 0.01f;
 
+    [Header("# Fire")]
+    public bool isFire;
+
     private void Awake()
     {
         isReadyDash = true;
+
     }
     private void Start()
     {
@@ -43,7 +47,10 @@ public class Movement : MonoBehaviour
         moveDir = value.Get<Vector2>();
     }
     //Dash
-
+    void OnFire(InputValue value)
+    {
+        isFire = value.isPressed;
+    }
     void OnDash(InputValue value)
     {
         if (value.isPressed&&isReadyDash==true) Dash();
