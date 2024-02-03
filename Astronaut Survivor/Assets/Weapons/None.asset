@@ -12,11 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12b7bfa74f4ff3a4ca5f5f16ca11a1da, type: 3}
   m_Name: None
   m_EditorClassIdentifier: 
-  weapon: 1
   weaponPref: 0
   particalAnimation: 0
+  haveOverLay: 0
+  weaponSprite: {fileID: 0}
   playerAnimator: {fileID: 9100000, guid: 342d2585f82144758e9dc8e09abf705f, type: 2}
   weaponAnimator: {fileID: 0}
+  overlayAnimator: {fileID: 0}
   particalAnimator: {fileID: 0}
   idleAnimator: {fileID: 9100000, guid: 193c6f790d254ad09fa1cf4dbbee7134, type: 2}
   damage: 0
