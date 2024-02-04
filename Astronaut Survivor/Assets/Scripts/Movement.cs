@@ -26,6 +26,8 @@ public class Movement : MonoBehaviour
 
     [Header("# Fire")]
     public bool isFire;
+    float timeDelayFire = 1f;
+    float timerFire;
 
     private void Awake()
     {
@@ -49,7 +51,21 @@ public class Movement : MonoBehaviour
     //Dash
     void OnFire(InputValue value)
     {
-        isFire = value.isPressed;
+        if (isFire)
+        {
+            StartCoroutine(FireAnimation());
+        }
+    }
+    IEnumerator FireAnimation()
+    {
+        //animation attack
+        if (GameManager.instance.weapon && isFire)
+        {
+            isFire = false;
+            GameManager.instance.weapon.AnimatorSystem(GameManager.instance.weapon.weapon.playerAnimator, GameManager.instance.weapon.weapon.weaponAnimator, GameManager.instance.weapon.weapon.overlayAnimator, GameManager.instance.weapon.weapon.particalAnimator, GameManager.instance.weapon.weapon.weaponSprite, GameManager.instance.weapon.weapon.weaponPref, GameManager.instance.weapon.weapon.particalAnimation, GameManager.instance.weapon.weapon.haveOverLay);
+            yield return new WaitForSeconds(1f);
+            GameManager.instance.weapon.AnimatorSystem(GameManager.instance.weapon.weapon.idleAnimator, null, null, GameManager.instance.weapon.weapon.particalAnimator, GameManager.instance.weapon.weapon.weaponSprite, GameManager.instance.weapon.weapon.weaponPref, false, GameManager.instance.weapon.weapon.haveOverLay);
+        }
     }
     void OnDash(InputValue value)
     {
@@ -105,6 +121,19 @@ public class Movement : MonoBehaviour
                 isReadyDash = true;
             }
         }
+        //check ability to Fire;
+
+        if (isFire == false)
+        {
+            timerFire += Time.deltaTime;
+            if (timerFire >= timeDelayFire)
+            {
+                timer = 0;
+                isFire = true;
+            }
+        }
+        
+
     }
 
     void OnMousePosition(InputValue value)
@@ -119,7 +148,6 @@ public class Movement : MonoBehaviour
     private void LateUpdate()
     {
         WeaponDir();
-        
     }
     public void WeaponDir()
     {
