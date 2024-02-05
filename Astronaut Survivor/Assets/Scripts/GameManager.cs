@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     public bool haveWeapon=true;
     public Weapon weapon;
     public WeaponType weaponType;
+    
 
     private void Awake()
     {

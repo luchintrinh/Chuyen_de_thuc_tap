@@ -26,8 +26,10 @@ public class Movement : MonoBehaviour
 
     [Header("# Fire")]
     public bool isFire;
-    float timeDelayFire = 1f;
+    public bool isReadyFire=true;
+    float timeDelayFire = 0.4f;
     float timerFire;
+    Attack attack;
 
     private void Awake()
     {
@@ -41,25 +43,36 @@ public class Movement : MonoBehaviour
         {
             weapon = transform.Find("Weapon").gameObject;
         }
+        attack = FindObjectOfType<Attack>();
     }
 
     //Move 
     void OnMove(InputValue value)
     {
         moveDir = value.Get<Vector2>();
+        if(moveDir.x!=0 || moveDir.y != 0)
+        {
+            GameManager.instance.weapon.AnimatorSystem(GameManager.instance.weapon.weapon.walkNotNearlyAttack, null, GameManager.instance.weapon.weapon.overlayAnimator, null, GameManager.instance.weapon.weapon.weaponSprite, GameManager.instance.weapon.weapon.weaponPref, false, GameManager.instance.weapon.weapon.haveOverLay);
+        }
+        else
+        {
+            GameManager.instance.weapon.AnimatorSystem(GameManager.instance.weapon.weapon.idleAnimator, null, null, GameManager.instance.weapon.weapon.particalAnimator, GameManager.instance.weapon.weapon.weaponSprite, GameManager.instance.weapon.weapon.weaponPref, false, GameManager.instance.weapon.weapon.haveOverLay);
+
+        }
     }
     //Dash
     void OnFire(InputValue value)
     {
         if (isFire)
         {
-            StartCoroutine(FireAnimation());
+            isReadyFire = true;
+            isFire = false;
         }
     }
     IEnumerator FireAnimation()
     {
         //animation attack
-        if (GameManager.instance.weapon && isFire)
+        if (GameManager.instance.weapon && isReadyFire)
         {
             isFire = false;
             GameManager.instance.weapon.AnimatorSystem(GameManager.instance.weapon.weapon.playerAnimator, GameManager.instance.weapon.weapon.weaponAnimator, GameManager.instance.weapon.weapon.overlayAnimator, GameManager.instance.weapon.weapon.particalAnimator, GameManager.instance.weapon.weapon.weaponSprite, GameManager.instance.weapon.weapon.weaponPref, GameManager.instance.weapon.weapon.particalAnimation, GameManager.instance.weapon.weapon.haveOverLay);
@@ -128,16 +141,28 @@ public class Movement : MonoBehaviour
             timerFire += Time.deltaTime;
             if (timerFire >= timeDelayFire)
             {
-                timer = 0;
+                timerFire = 0;
                 isFire = true;
             }
         }
+        FireInClick();
         
+    }
 
+    void FireInClick()
+    {
+        if (isReadyFire)
+        {
+            attack.CreateBullet();
+            StartCoroutine(FireAnimation());
+            isReadyFire = false;
+            isFire = false;
+        }
     }
 
     void OnMousePosition(InputValue value)
     {
+        if (transform.GetChild(0).GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("weapon_sword_side")|| transform.GetChild(0).GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("weapon_hammer_side") || transform.GetChild(0).GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("weapon_scythe_side")) return;
         mousePos = Camera.main.ScreenToWorldPoint(value.Get<Vector2>());
     }
 
