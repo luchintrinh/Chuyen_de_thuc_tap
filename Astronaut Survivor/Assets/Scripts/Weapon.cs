@@ -19,7 +19,6 @@ public class Weapon : MonoBehaviour
     {
         if (!collision.CompareTag("Player")) return;
         GameManager.instance.weapon = this;
-        Debug.Log(GameManager.instance.weapon);
         CollectWeapon(weaponType, weapon);
         
     }

@@ -29,7 +29,7 @@ public class WeaponType : ScriptableObject
 
 
     [Header("# Properties")]
-    public float damage;
+    public int damage;
     public float bonusSpeed;
     public float timeDelayAttack;
 }

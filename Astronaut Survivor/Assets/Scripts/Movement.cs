@@ -26,13 +26,15 @@ public class Movement : MonoBehaviour
 
     [Header("# Fire")]
     public bool isFire;
-    float timeDelayFire = 1f;
+    public bool isReadyFire=true;
+    float timeDelayFire = 0.4f;
     float timerFire;
+    Attack attack;
 
     private void Awake()
     {
         isReadyDash = true;
-
+        isFire = true;
     }
     private void Start()
     {
@@ -41,30 +43,41 @@ public class Movement : MonoBehaviour
         {
             weapon = transform.Find("Weapon").gameObject;
         }
+        attack = FindObjectOfType<Attack>();
     }
 
     //Move 
     void OnMove(InputValue value)
     {
         moveDir = value.Get<Vector2>();
+        if(moveDir.x!=0 || moveDir.y != 0)
+        {
+            GameManager.instance.weapon.AnimatorSystem(GameManager.instance.weapon.weapon.walkNotNearlyAttack, null, GameManager.instance.weapon.weapon.overlayAnimator, null, GameManager.instance.weapon.weapon.weaponSprite, GameManager.instance.weapon.weapon.weaponPref, false, GameManager.instance.weapon.weapon.haveOverLay);
+        }
+        else
+        {
+            GameManager.instance.weapon.AnimatorSystem(GameManager.instance.weapon.weapon.idleAnimator, null, null, GameManager.instance.weapon.weapon.particalAnimator, GameManager.instance.weapon.weapon.weaponSprite, GameManager.instance.weapon.weapon.weaponPref, false, GameManager.instance.weapon.weapon.haveOverLay);
+
+        }
     }
     //Dash
     void OnFire(InputValue value)
     {
         if (isFire)
         {
-            StartCoroutine(FireAnimation());
+            isReadyFire = true;
+            isFire = false;
         }
     }
     IEnumerator FireAnimation()
     {
         //animation attack
-        if (GameManager.instance.weapon && isFire)
+        if (GameManager.instance.weapon && isReadyFire)
         {
-            isFire = false;
             GameManager.instance.weapon.AnimatorSystem(GameManager.instance.weapon.weapon.playerAnimator, GameManager.instance.weapon.weapon.weaponAnimator, GameManager.instance.weapon.weapon.overlayAnimator, GameManager.instance.weapon.weapon.particalAnimator, GameManager.instance.weapon.weapon.weaponSprite, GameManager.instance.weapon.weapon.weaponPref, GameManager.instance.weapon.weapon.particalAnimation, GameManager.instance.weapon.weapon.haveOverLay);
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(0.35f);
             GameManager.instance.weapon.AnimatorSystem(GameManager.instance.weapon.weapon.idleAnimator, null, null, GameManager.instance.weapon.weapon.particalAnimator, GameManager.instance.weapon.weapon.weaponSprite, GameManager.instance.weapon.weapon.weaponPref, false, GameManager.instance.weapon.weapon.haveOverLay);
+            isFire = true;
         }
     }
     void OnDash(InputValue value)
@@ -122,18 +135,31 @@ public class Movement : MonoBehaviour
             }
         }
         //check ability to Fire;
-
+        /*
         if (isFire == false)
         {
             timerFire += Time.deltaTime;
             if (timerFire >= timeDelayFire)
             {
-                timer = 0;
+                timerFire = 0;
                 isFire = true;
             }
         }
+        */
+        FireInClick();
         
+    }
 
+    void FireInClick()
+    {
+        if (isReadyFire)
+        {
+            
+            StartCoroutine(FireAnimation());
+            attack.CreateBullet();
+            isReadyFire = false;
+            
+        }
     }
 
     void OnMousePosition(InputValue value)
@@ -147,9 +173,9 @@ public class Movement : MonoBehaviour
     }
     private void LateUpdate()
     {
-        WeaponDir();
+        WeaponDir(GameManager.instance.weapon.weapon.nearlyAttack);
     }
-    public void WeaponDir()
+    public void WeaponDir(bool isNearly)
     {
         Vector3 dir = transform.localScale;
         dir.x = transform.position.x < mousePos.x ? -1 : 1; 
@@ -158,14 +184,15 @@ public class Movement : MonoBehaviour
         float angle = Mathf.Atan2(gunDir.y, gunDir.x) * Mathf.Rad2Deg;
         if (weapon)
         {
+            if (isNearly) return;
             if (dir.x == -1)
             {
                 weapon.transform.rotation = Quaternion.Euler(0, 0, angle);
             }
             else
             {
-                
-                weapon.transform.rotation = Quaternion.Euler(0, 0, angle+180);
+
+                weapon.transform.rotation = Quaternion.Euler(0, 0, angle + 180);
             }
         }
     }

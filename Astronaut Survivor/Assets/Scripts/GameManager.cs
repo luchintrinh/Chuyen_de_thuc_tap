@@ -11,6 +11,8 @@ public class GameManager : MonoBehaviour
     public Weapon weapon;
     public WeaponType weaponType;
 
+    public GameObject player;
+
     private void Awake()
     {
         if (instance != null)
