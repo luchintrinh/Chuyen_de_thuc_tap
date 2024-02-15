@@ -34,7 +34,7 @@ public class Movement : MonoBehaviour
     private void Awake()
     {
         isReadyDash = true;
-
+        isFire = true;
     }
     private void Start()
     {
@@ -74,10 +74,10 @@ public class Movement : MonoBehaviour
         //animation attack
         if (GameManager.instance.weapon && isReadyFire)
         {
-            isFire = false;
             GameManager.instance.weapon.AnimatorSystem(GameManager.instance.weapon.weapon.playerAnimator, GameManager.instance.weapon.weapon.weaponAnimator, GameManager.instance.weapon.weapon.overlayAnimator, GameManager.instance.weapon.weapon.particalAnimator, GameManager.instance.weapon.weapon.weaponSprite, GameManager.instance.weapon.weapon.weaponPref, GameManager.instance.weapon.weapon.particalAnimation, GameManager.instance.weapon.weapon.haveOverLay);
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(0.35f);
             GameManager.instance.weapon.AnimatorSystem(GameManager.instance.weapon.weapon.idleAnimator, null, null, GameManager.instance.weapon.weapon.particalAnimator, GameManager.instance.weapon.weapon.weaponSprite, GameManager.instance.weapon.weapon.weaponPref, false, GameManager.instance.weapon.weapon.haveOverLay);
+            isFire = true;
         }
     }
     void OnDash(InputValue value)
@@ -135,7 +135,7 @@ public class Movement : MonoBehaviour
             }
         }
         //check ability to Fire;
-
+        /*
         if (isFire == false)
         {
             timerFire += Time.deltaTime;
@@ -145,6 +145,7 @@ public class Movement : MonoBehaviour
                 isFire = true;
             }
         }
+        */
         FireInClick();
         
     }
@@ -153,16 +154,16 @@ public class Movement : MonoBehaviour
     {
         if (isReadyFire)
         {
-            attack.CreateBullet();
+            
             StartCoroutine(FireAnimation());
+            attack.CreateBullet();
             isReadyFire = false;
-            isFire = false;
+            
         }
     }
 
     void OnMousePosition(InputValue value)
     {
-        if (transform.GetChild(0).GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("weapon_sword_side")|| transform.GetChild(0).GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("weapon_hammer_side") || transform.GetChild(0).GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("weapon_scythe_side")) return;
         mousePos = Camera.main.ScreenToWorldPoint(value.Get<Vector2>());
     }
 
@@ -172,9 +173,9 @@ public class Movement : MonoBehaviour
     }
     private void LateUpdate()
     {
-        WeaponDir();
+        WeaponDir(GameManager.instance.weapon.weapon.nearlyAttack);
     }
-    public void WeaponDir()
+    public void WeaponDir(bool isNearly)
     {
         Vector3 dir = transform.localScale;
         dir.x = transform.position.x < mousePos.x ? -1 : 1; 
@@ -183,14 +184,15 @@ public class Movement : MonoBehaviour
         float angle = Mathf.Atan2(gunDir.y, gunDir.x) * Mathf.Rad2Deg;
         if (weapon)
         {
+            if (isNearly) return;
             if (dir.x == -1)
             {
                 weapon.transform.rotation = Quaternion.Euler(0, 0, angle);
             }
             else
             {
-                
-                weapon.transform.rotation = Quaternion.Euler(0, 0, angle+180);
+
+                weapon.transform.rotation = Quaternion.Euler(0, 0, angle + 180);
             }
         }
     }

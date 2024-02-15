@@ -21,7 +21,7 @@ MonoBehaviour:
   weaponAnimator: {fileID: 9100000, guid: 1a2e41f8a0694094837e2c1efb280be5, type: 2}
   overlayAnimator: {fileID: 9100000, guid: 1ae416d957ba4dcabc53b9aa02433bab, type: 2}
   particalAnimator: {fileID: 0}
-  idleAnimator: {fileID: 0}
+  idleAnimator: {fileID: 9100000, guid: 193c6f790d254ad09fa1cf4dbbee7134, type: 2}
   walkNotNearlyAttack: {fileID: 9100000, guid: 342d2585f82144758e9dc8e09abf705f, type: 2}
   overlayNotAttack: {fileID: 9100000, guid: f513a53f6ab44aeea7901fdb74325f67, type: 2}
   damage: 0
