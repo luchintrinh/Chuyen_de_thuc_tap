@@ -25,9 +25,4 @@ public class GameManager : MonoBehaviour
             DontDestroyOnLoad(instance);
         }
     }
-    private void Start()
-    {
-        weapon = FindObjectOfType<Weapon>();
-        weapon.CollectWeapon(Weapon.Type.none, weaponType);
-    }
 }
