@@ -27,22 +27,22 @@ public class Movement : MonoBehaviour
     [Header("# Fire")]
     public bool isFire;
     public bool isReadyFire=true;
-    float timeDelayFire = 0.4f;
-    float timerFire;
+    //float timeDelayFire = 0.4f;
+    //float timerFire;
     Attack attack;
+
 
     private void Awake()
     {
         isReadyDash = true;
         isFire = true;
+        
     }
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
-        if (GameManager.instance.haveWeapon)
-        {
-            weapon = transform.Find("Weapon").gameObject;
-        }
+        weapon = transform.Find("Weapon").gameObject;
+        
         attack = FindObjectOfType<Attack>();
     }
 
@@ -57,7 +57,6 @@ public class Movement : MonoBehaviour
         else
         {
             GameManager.instance.weapon.AnimatorSystem(GameManager.instance.weapon.weapon.idleAnimator, null, null, GameManager.instance.weapon.weapon.particalAnimator, GameManager.instance.weapon.weapon.weaponSprite, GameManager.instance.weapon.weapon.weaponPref, false, GameManager.instance.weapon.weapon.haveOverLay);
-
         }
     }
     //Dash
@@ -134,18 +133,7 @@ public class Movement : MonoBehaviour
                 isReadyDash = true;
             }
         }
-        //check ability to Fire;
-        /*
-        if (isFire == false)
-        {
-            timerFire += Time.deltaTime;
-            if (timerFire >= timeDelayFire)
-            {
-                timerFire = 0;
-                isFire = true;
-            }
-        }
-        */
+
         FireInClick();
         
     }
@@ -173,6 +161,7 @@ public class Movement : MonoBehaviour
     }
     private void LateUpdate()
     {
+        if (!GameManager.instance.weapon) return;
         WeaponDir(GameManager.instance.weapon.weapon.nearlyAttack);
     }
     public void WeaponDir(bool isNearly)

@@ -11,22 +11,26 @@ public class Weapon : MonoBehaviour
 
     GameObject fireAni;
     Movement movement;
-    private void Awake()
+    private void Start()
     {
+        player = GameManager.instance.player;
         movement = player.GetComponent<Movement>();
+        CollectWeapon(Type.none, GameManager.instance.weaponType);
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (!collision.CompareTag("Player")) return;
         GameManager.instance.weapon = this;
         CollectWeapon(weaponType, weapon);
-        
     }
     public void CollectWeapon(Type weaponType, WeaponType weapon)
     {
         switch (weaponType)
         {
             case Type.none:
+                Debug.Log("hello");
+                changeWeapon(weapon);
+                gameObject.SetActive(false);
                 break;
             case Type.Gun:
                 changeWeapon(weapon);
@@ -49,6 +53,7 @@ public class Weapon : MonoBehaviour
                 gameObject.SetActive(false);
                 break;
             case Type.Bow:
+                
                 changeWeapon(weapon);
                 gameObject.SetActive(false);
                 break;

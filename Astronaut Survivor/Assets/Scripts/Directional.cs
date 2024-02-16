@@ -17,6 +17,11 @@ public class Directional : MonoBehaviour
         Vector3 dir = (Vector3)move.mousePos - transform.position;
         float angle = Mathf.Atan2(dir.y, dir.x)*Mathf.Rad2Deg;
         transform.rotation=Quaternion.Euler(0, 0, angle);
-        Debug.Log(angle);
+    }
+    private void LateUpdate()
+    {
+        Vector3 dir = transform.localScale;
+        dir.x =GameManager.instance.player.transform.localScale.x == -1 ?-1 : 1;
+        transform.localScale = dir;
     }
 }

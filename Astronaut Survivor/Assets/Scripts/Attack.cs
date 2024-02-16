@@ -13,6 +13,7 @@ public class Attack : MonoBehaviour
     public GameObject scytheLaserPrefab;
 
     public Transform firePoint;
+    public Transform attackPoint;
     public GameObject player;
     Movement movement;
     public float nearlySpeed = 4f;
@@ -24,7 +25,7 @@ public class Attack : MonoBehaviour
     }
     public void InitLaser(GameObject prefab, float moveSpeed)
     {
-        GameObject bullet=Instantiate(prefab, firePoint.position, Quaternion.identity, transform);
+        GameObject bullet=Instantiate(prefab, GameManager.instance.weapon.weapon.nearlyAttack?attackPoint.position:firePoint.position, Quaternion.identity, transform);
         Vector3 dir = (Vector3)movement.mousePos - bullet.transform.position;
         bullet.transform.rotation = Quaternion.Euler(0, 0, Mathf.Atan2(dir.y, dir.x)*Mathf.Rad2Deg);
         dir = dir.normalized;
@@ -33,6 +34,7 @@ public class Attack : MonoBehaviour
     }
     public void CreateBullet()
     {
+        if (!GameManager.instance.weapon) return;
         switch (GameManager.instance.weapon.weaponType)
         {
             case Weapon.Type.Gun:
