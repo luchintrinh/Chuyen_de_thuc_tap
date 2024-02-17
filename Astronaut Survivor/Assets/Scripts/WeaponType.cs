@@ -6,6 +6,9 @@ using UnityEngine;
 [CreateAssetMenu(fileName ="new Weapon", menuName ="Weapon")]
 public class WeaponType : ScriptableObject
 {
+    [Header("# Information")]
+    public string name;
+    public string description;
 
     [Header ("# GameObject need create")]
     public bool weaponPref;

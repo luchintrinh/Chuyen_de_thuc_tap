@@ -12,6 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 12b7bfa74f4ff3a4ca5f5f16ca11a1da, type: 3}
   m_Name: Bow
   m_EditorClassIdentifier: 
+  name: Bow
+  description: arrow
   weaponPref: 1
   particalAnimation: 0
   haveOverLay: 1
