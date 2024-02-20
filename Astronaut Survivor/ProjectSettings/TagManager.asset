@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Weapon
   - Bullet
+  - Enemy
   layers:
   - Default
   - TransparentFX
@@ -13,9 +14,9 @@ TagManager:
   - 
   - Water
   - UI
-  - 
-  - 
-  - 
+  - Enemy
+  - Player
+  - Boudary
   - 
   - 
   - 
@@ -42,4 +43,25 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Background
+    uniqueID: 688291217
+    locked: 0
+  - name: Entity
+    uniqueID: 3042037789
+    locked: 0
+  - name: Boundary
+    uniqueID: 1468605909
+    locked: 0
+  - name: Item
+    uniqueID: 1296937039
+    locked: 0
+  - name: Enemy
+    uniqueID: 1201973299
+    locked: 0
+  - name: bullet
+    uniqueID: 2726009611
+    locked: 0
+  - name: Player
+    uniqueID: 1798810315
     locked: 0

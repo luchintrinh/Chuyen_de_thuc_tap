@@ -15,12 +15,13 @@ public class Weapon : MonoBehaviour
     {
         player = GameManager.instance.player;
         movement = player.GetComponent<Movement>();
-        CollectWeapon(Type.none, GameManager.instance.weaponType);
+        Debug.Log(weaponType);
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (!collision.CompareTag("Player")) return;
         GameManager.instance.weapon = this;
+        GameManager.instance.weaponType=weapon;
         CollectWeapon(weaponType, weapon);
     }
     public void CollectWeapon(Type weaponType, WeaponType weapon)
@@ -28,7 +29,6 @@ public class Weapon : MonoBehaviour
         switch (weaponType)
         {
             case Type.none:
-                Debug.Log("hello");
                 changeWeapon(weapon);
                 gameObject.SetActive(false);
                 break;
@@ -61,6 +61,7 @@ public class Weapon : MonoBehaviour
     }
     public void AnimatorSystem(RuntimeAnimatorController playerAni, RuntimeAnimatorController weaponAni, RuntimeAnimatorController overlayAni, RuntimeAnimatorController particalAni,Sprite weaponSprite, bool hasWeapon, bool hasPartical, bool hasOverlay)
     {
+        if (!player) return;
         player.GetComponent<Animator>().runtimeAnimatorController = playerAni ? playerAni : null ;
         // active the weapon
         GameObject weaponObject = player.transform.GetChild(0).gameObject;
