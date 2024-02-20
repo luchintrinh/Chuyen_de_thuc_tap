@@ -22,18 +22,13 @@ public class Enemy : MonoBehaviour
     }
     private void LateUpdate()
     {
-        Vector3 dir = transform.localScale;
+        Vector3 dir = transform.GetChild(0).transform.localScale;
         dir.x= GameManager.instance.player.transform.position.x <= transform.position.x?-1:1;
-        transform.localScale = dir;
+        transform.GetChild(0).transform.localScale = dir;
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (!collision.CompareTag("Bullet")) return;
         ani.SetTrigger("Hit");
-    }
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        if (!collision.CompareTag("Bullet")) return;
-        ani.ResetTrigger("Hit");
     }
 }

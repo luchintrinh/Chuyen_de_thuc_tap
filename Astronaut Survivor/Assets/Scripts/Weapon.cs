@@ -61,6 +61,7 @@ public class Weapon : MonoBehaviour
     }
     public void AnimatorSystem(RuntimeAnimatorController playerAni, RuntimeAnimatorController weaponAni, RuntimeAnimatorController overlayAni, RuntimeAnimatorController particalAni,Sprite weaponSprite, bool hasWeapon, bool hasPartical, bool hasOverlay)
     {
+        if (!player) return;
         player.GetComponent<Animator>().runtimeAnimatorController = playerAni ? playerAni : null ;
         // active the weapon
         GameObject weaponObject = player.transform.GetChild(0).gameObject;

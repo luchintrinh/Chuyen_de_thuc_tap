@@ -7,7 +7,7 @@ public class InRangeOfAttack : MonoBehaviour
     Enemy enemy;
     private void Start()
     {
-        enemy = FindObjectOfType<Enemy>();
+        enemy = GetComponentInParent<Enemy>();
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {

@@ -26,6 +26,6 @@ MonoBehaviour:
   idleAnimator: {fileID: 9100000, guid: 193c6f790d254ad09fa1cf4dbbee7134, type: 2}
   walkNotNearlyAttack: {fileID: 9100000, guid: a7ed3eeff20b45a9ac70cc44f7c79927, type: 2}
   overlayNotAttack: {fileID: 0}
-  damage: 0
+  damage: 2
   bonusSpeed: 0
   timeDelayAttack: 0
